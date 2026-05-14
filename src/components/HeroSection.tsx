@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { ArrowDown } from "lucide-react";
@@ -11,65 +10,8 @@ const HeroScene = dynamic(
 );
 
 export function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let gsapModule: typeof import("gsap") | null = null;
-    let stModule: typeof import("gsap/ScrollTrigger") | null = null;
-
-    const init = async () => {
-      gsapModule = await import("gsap");
-      stModule = await import("gsap/ScrollTrigger");
-      const gsap = gsapModule.gsap;
-      const ScrollTrigger = stModule.ScrollTrigger;
-      gsap.registerPlugin(ScrollTrigger);
-
-      if (!containerRef.current) return;
-
-      const heading = containerRef.current.querySelector(".hero-heading");
-      const sub = containerRef.current.querySelector(".hero-sub");
-
-      if (heading) {
-        gsap.to(heading, {
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-          y: -120,
-          opacity: 0.2,
-          scale: 0.95,
-        });
-      }
-
-      if (sub) {
-        gsap.to(sub, {
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "60% top",
-            scrub: 1,
-          },
-          y: -60,
-          opacity: 0,
-        });
-      }
-    };
-    init();
-
-    return () => {
-      if (stModule) {
-        stModule.ScrollTrigger.getAll().forEach((t) => t.kill());
-      }
-    };
-  }, []);
-
   return (
-    <section
-      ref={containerRef}
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
-    >
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
       <HeroScene />
 
       <div className="absolute inset-0 bg-gradient-to-b from-bg/40 via-transparent to-bg z-[1]" />
@@ -91,7 +33,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-          className="hero-heading font-[var(--font-display)] text-[clamp(2.5rem,8vw,7rem)] font-light leading-[0.9] tracking-[-0.03em]"
+          className="font-[var(--font-display)] text-[clamp(2.5rem,8vw,7rem)] font-light leading-[0.9] tracking-[-0.03em]"
         >
           <span className="block">Hair, Nails</span>
           <span className="block mt-2">
@@ -104,7 +46,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 1 }}
-          className="hero-sub mt-8 mx-auto max-w-xl text-sm leading-relaxed text-text-muted tracking-wide"
+          className="mt-8 mx-auto max-w-xl text-sm leading-relaxed text-text-muted tracking-wide"
         >
           All under one roof in the heart of Freetown. Walk-ins welcome — no
           appointment needed.
