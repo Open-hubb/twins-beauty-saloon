@@ -1,26 +1,152 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: #0a0a0a;
+  --color-bg-elevated: #141617;
+  --color-bg-floating: #1a1c1e;
+  --color-surface: #232323;
+  --color-text: #eaeaea;
+  --color-text-muted: #8e8e8e;
+  --color-text-dim: #6d6d6d;
+  --color-border: #2a2a2a;
+  --color-accent: #c8a97e;
+  --color-accent-light: #e2cba8;
+  --color-accent-glow: #c8a97e33;
+  --color-neon: #d4af37;
+  --color-orchid: #da70d6;
+  --color-rose: #b76e79;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "General Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: "General Sans";
+  src: url("https://cdn.fontshare.com/wf/ZVQNLP2BMDV6XKTOVKWHXQIRFZ7YQCZX/VD2CEJAWVXJMPJLIM536P4FWMM7BI7EB/QAHWKIG5TMQMKKZ7TDPXZMX2DWE262TM.woff2") format("woff2");
+  font-weight: 200 700;
+  font-display: swap;
+}
+
+html {
+  background: #0a0a0a;
+  color: #eaeaea;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #0a0a0a;
+  color: #eaeaea;
+  font-family: "General Sans", "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+* {
+  cursor: none !important;
+}
+
+::selection {
+  background: #c8a97e;
+  color: #0a0a0a;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.text-stroke {
+  -webkit-text-stroke: 1.5px #eaeaea;
+  color: transparent;
+}
+
+.text-stroke-accent {
+  -webkit-text-stroke: 1.5px #c8a97e;
+  color: transparent;
+}
+
+.grain-overlay::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+.marquee-track {
+  display: flex;
+  animation: marquee 25s linear infinite;
+  width: max-content;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.liquid-hover {
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), filter 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.liquid-hover:hover {
+  transform: scale(1.02);
+  filter: saturate(1.2) brightness(1.05);
+}
+
+.line-reveal {
+  clip-path: inset(0 100% 0 0);
+}
+
+.line-reveal.revealed {
+  clip-path: inset(0 0% 0 0);
+  transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.split-char {
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.split-char.visible {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.6s ease;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-8px) rotate(1deg); }
+  66% { transform: translateY(4px) rotate(-1deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px #c8a97e33; }
+  50% { box-shadow: 0 0 40px #c8a97e55, 0 0 80px #c8a97e22; }
+}
+
+.cart-badge {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
