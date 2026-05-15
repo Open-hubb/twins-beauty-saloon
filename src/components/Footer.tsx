@@ -44,7 +44,7 @@ export function Footer() {
             <span className="italic text-stroke-accent">Our Craft</span>
           </h2>
           <p className="mt-6 text-sm text-text-muted">
-            Walk-ins welcome &mdash; no appointment needed
+            Walk-ins welcome. Book a date &amp; deposit to reserve your spot.
           </p>
           <a
             href="https://wa.me/23278046462"
@@ -59,15 +59,12 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-6 px-6 py-8 lg:flex-row lg:px-12">
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-8">
-            <a
-              href="tel:+23278046462"
-              className="flex items-center gap-2 text-xs text-text-dim transition hover:text-text"
-            >
-              <Phone size={12} />
-              +232 78 046462
-            </a>
+        <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-4 px-6 py-8 text-center lg:grid-cols-3 lg:text-left lg:px-12">
+          <span className="text-xs text-text-dim">
+            &copy; {new Date().getFullYear()} Twin Beauty Saloon
+          </span>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-6">
             <a
               href="mailto:Ttwinsbeautysaloon@gmail.com"
               className="flex items-center gap-2 text-xs text-text-dim transition hover:text-text"
@@ -75,13 +72,6 @@ export function Footer() {
               <Mail size={12} />
               Ttwinsbeautysaloon@gmail.com
             </a>
-            <span className="flex items-center gap-2 text-xs text-text-dim">
-              <MapPin size={12} />
-              17 Adelaide St, Freetown
-            </span>
-          </div>
-
-          <div className="flex items-center gap-6">
             <a
               href="https://www.facebook.com/twinsbe"
               target="_blank"
@@ -90,8 +80,19 @@ export function Footer() {
             >
               Facebook
             </a>
+          </div>
+
+          <div className="flex items-center justify-center lg:justify-end">
             <span className="text-xs text-text-dim">
-              &copy; {new Date().getFullYear()} Twin Beauty Saloon
+              Built and powered by{" "}
+              <a
+                href="https://www.flotme.ai/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-accent transition hover:text-accent-light"
+              >
+                Flot
+              </a>
             </span>
           </div>
         </div>

@@ -168,7 +168,7 @@ export function ServicesSection() {
                     style={{ color: service.accent }}
                     data-cursor="BOOK"
                   >
-                    Book via WhatsApp &rarr;
+                    Reserve Your Spot &rarr;
                   </a>
                 </div>
               </div>

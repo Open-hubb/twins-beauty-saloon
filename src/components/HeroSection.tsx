@@ -48,8 +48,8 @@ export function HeroSection() {
           transition={{ delay: 0.9, duration: 1 }}
           className="mt-8 mx-auto max-w-xl text-sm leading-relaxed text-text-muted tracking-wide"
         >
-          All under one roof in the heart of Freetown. Walk-ins welcome — no
-          appointment needed.
+          All under one roof in the heart of Freetown. Walk-ins welcome.
+          Book an available date and deposit a percentage to reserve your spot.
         </motion.p>
 
         <motion.div
