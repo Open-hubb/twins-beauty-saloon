@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { ArrowDown } from "lucide-react";
+import { useBooking } from "@/context/BookingContext";
 
 const HeroScene = dynamic(
   () => import("./HeroScene").then((mod) => ({ default: mod.HeroScene })),
@@ -10,6 +11,8 @@ const HeroScene = dynamic(
 );
 
 export function HeroSection() {
+  const { setIsBookingOpen } = useBooking();
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
       <HeroScene />
@@ -58,16 +61,14 @@ export function HeroSection() {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a
-            href="https://wa.me/23278046462"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => setIsBookingOpen(true)}
             className="magnetic-btn group relative overflow-hidden rounded-full bg-accent px-8 py-3.5 text-sm font-semibold tracking-[0.1em] text-bg uppercase"
             data-cursor="BOOK"
           >
             <span className="relative z-10">Book Now</span>
             <div className="absolute inset-0 -translate-x-full bg-accent-light transition-transform duration-500 group-hover:translate-x-0" />
-          </a>
+          </button>
           <button
             onClick={() => {
               document

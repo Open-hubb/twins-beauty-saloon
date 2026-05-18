@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Scissors, Sparkles, Crown, ShoppingBag } from "lucide-react";
+import { useBooking } from "@/context/BookingContext";
 
 const services = [
   {
@@ -63,6 +64,7 @@ export function ServicesSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const cardsRef = useRef<HTMLDivElement>(null);
+  const { setIsBookingOpen } = useBooking();
 
   useEffect(() => {
     const init = async () => {
@@ -160,16 +162,14 @@ export function ServicesSection() {
                   ))}
                 </ul>
                 <div className="mt-8">
-                  <a
-                    href="https://wa.me/23278046462"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-medium tracking-[0.2em] uppercase transition-colors"
+                  <button
+                    onClick={() => setIsBookingOpen(true)}
+                    className="text-xs font-medium tracking-[0.2em] uppercase transition-colors cursor-pointer"
                     style={{ color: service.accent }}
                     data-cursor="BOOK"
                   >
                     Reserve Your Spot &rarr;
-                  </a>
+                  </button>
                 </div>
               </div>
             );

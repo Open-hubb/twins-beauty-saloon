@@ -5,6 +5,8 @@ import { Providers } from "@/components/Providers";
 import { CustomCursor } from "@/components/CustomCursor";
 import { Navigation } from "@/components/Navigation";
 import { CartProvider } from "@/context/CartContext";
+import { BookingProvider } from "@/context/BookingContext";
+import { BookingModal } from "@/components/BookingModal";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -29,11 +31,14 @@ export default function RootLayout({
     <html lang="en" className={`${playfair.variable} h-full antialiased`}>
       <body className="min-h-full bg-bg text-text grain-overlay">
         <CartProvider>
-          <Providers>
-            <CustomCursor />
-            <Navigation />
-            {children}
-          </Providers>
+          <BookingProvider>
+            <Providers>
+              <CustomCursor />
+              <Navigation />
+              {children}
+              <BookingModal />
+            </Providers>
+          </BookingProvider>
         </CartProvider>
       </body>
     </html>

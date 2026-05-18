@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingBag, X, Menu, Phone } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useBooking } from "@/context/BookingContext";
 import { CartDrawer } from "@/components/CartDrawer";
 
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
-  { label: "Gallery", href: "#gallery" },
   { label: "Shop", href: "#shop" },
   { label: "Contact", href: "#contact" },
 ];
@@ -18,6 +18,7 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalItems, isCartOpen, setIsCartOpen } = useCart();
+  const { setIsBookingOpen } = useBooking();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 80);
@@ -154,20 +155,21 @@ export function Navigation() {
                 </motion.button>
               ))}
             </nav>
-            <motion.a
+            <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              href="https://wa.me/23278046462"
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={() => {
+                setMenuOpen(false);
+                setIsBookingOpen(true);
+              }}
               className="mt-12 flex items-center gap-2 rounded-full border border-accent px-6 py-3"
             >
               <Phone size={16} className="text-accent" />
               <span className="text-sm tracking-[0.2em] text-accent uppercase">
-                Book via WhatsApp
+                Book Now
               </span>
-            </motion.a>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>

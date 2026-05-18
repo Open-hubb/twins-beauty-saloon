@@ -4,7 +4,6 @@ import { HeroSection } from "@/components/HeroSection";
 import { MarqueeStrip } from "@/components/MarqueeStrip";
 import { AboutSection } from "@/components/AboutSection";
 import { ServicesSection } from "@/components/ServicesSection";
-import { GallerySection } from "@/components/GallerySection";
 import { ShopSection } from "@/components/ShopSection";
 import { TestimonialSection } from "@/components/TestimonialSection";
 import { ContactSection } from "@/components/ContactSection";
@@ -43,7 +42,6 @@ export default function Home() {
       />
 
       <ServicesSection />
-      <GallerySection />
 
       <MarqueeStrip
         items={[

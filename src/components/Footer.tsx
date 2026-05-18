@@ -2,9 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { useBooking } from "@/context/BookingContext";
 
 export function Footer() {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const { setIsBookingOpen } = useBooking();
 
   useEffect(() => {
     const init = async () => {
@@ -46,15 +48,13 @@ export function Footer() {
           <p className="mt-6 text-sm text-text-muted">
             Walk-ins welcome. Book a date &amp; deposit to reserve your spot.
           </p>
-          <a
-            href="https://wa.me/23278046462"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => setIsBookingOpen(true)}
             className="magnetic-btn mt-8 inline-flex rounded-full bg-accent px-8 py-3.5 text-sm font-semibold tracking-[0.1em] text-bg uppercase transition hover:bg-accent-light"
             data-cursor="BOOK"
           >
             Book Now
-          </a>
+          </button>
         </div>
       </div>
 
