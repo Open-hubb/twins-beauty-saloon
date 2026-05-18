@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Calendar, Clock, User, ArrowRight } from "lucide-react";
+import { X, Calendar, Clock, User, ArrowRight, ShoppingBag } from "lucide-react";
 import { useBooking } from "@/context/BookingContext";
+import { useCart } from "@/context/CartContext";
 
-const FLOT_URL = "https://pay.flotme.ai/twinsbeautysaloon";
+const FLOT_BASE = "https://pay.flotme.ai/twinsbeautysaloon";
 
 const timeSlots = [
   "09:00 AM",
@@ -37,12 +38,19 @@ export function BookingModal() {
     setIsPaymentOpen,
     bookingData,
     setBookingData,
+    cartTotal,
+    setCartTotal,
+    depositAmount,
   } = useBooking();
+
+  const { clearCart } = useCart();
 
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [error, setError] = useState("");
+
+  const isFromCart = cartTotal > 0;
 
   const handleSubmit = () => {
     if (!name.trim()) {
@@ -66,24 +74,32 @@ export function BookingModal() {
 
   const handleClose = () => {
     setIsBookingOpen(false);
+    setCartTotal(0);
     setError("");
   };
 
-  const handlePaymentClose = () => {
+  const resetForm = () => {
     setIsPaymentOpen(false);
     setBookingData(null);
+    setCartTotal(0);
     setName("");
     setDate("");
     setTime("");
   };
 
-  const handlePaymentDone = () => {
-    setIsPaymentOpen(false);
-    setBookingData(null);
-    setName("");
-    setDate("");
-    setTime("");
+  const handlePaymentClose = () => {
+    resetForm();
   };
+
+  const handlePaymentDone = () => {
+    if (isFromCart) clearCart();
+    resetForm();
+  };
+
+  // Build Flot URL with amount pre-populated
+  const flotUrl = depositAmount > 0
+    ? `${FLOT_BASE}?amount=${depositAmount}`
+    : FLOT_BASE;
 
   // Get tomorrow's date as minimum
   const tomorrow = new Date();
@@ -92,7 +108,7 @@ export function BookingModal() {
 
   return (
     <>
-      {/* Booking Form Modal */}
+      {/* ─── Booking Form Modal ─── */}
       <AnimatePresence>
         {isBookingOpen && (
           <motion.div
@@ -107,17 +123,19 @@ export function BookingModal() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-md overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-2xl"
+              className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl border border-border bg-bg-elevated shadow-2xl"
+              data-lenis-prevent
             >
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-border px-6 py-5">
+              <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-bg-elevated px-6 py-5">
                 <div>
                   <h2 className="font-[var(--font-display)] text-xl font-medium">
                     Reserve Your Spot
                   </h2>
                   <p className="mt-1 text-xs text-text-dim">
-                    Fill in your details, then pay a deposit to lock in your
-                    booking
+                    {isFromCart
+                      ? "Complete your details and pay 30% deposit to lock your booking"
+                      : "Fill in your details, then pay a deposit to lock in your booking"}
                   </p>
                 </div>
                 <button
@@ -128,8 +146,36 @@ export function BookingModal() {
                 </button>
               </div>
 
+              {/* Cart Summary (shown when coming from marketplace) */}
+              {isFromCart && (
+                <div className="mx-6 mt-5 rounded-xl border border-accent/15 bg-accent/5 p-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <ShoppingBag size={14} className="text-accent" />
+                    <span className="text-[11px] font-medium tracking-[0.15em] text-accent uppercase">
+                      Order Summary
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-text-muted">Service Total</span>
+                    <span className="font-medium">Le {cartTotal.toLocaleString()}</span>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between border-t border-accent/10 pt-2">
+                    <span className="text-sm font-medium text-text">
+                      30% Deposit Due Now
+                    </span>
+                    <span className="text-lg font-semibold text-accent">
+                      Le {depositAmount.toLocaleString()}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-[10px] text-text-dim leading-relaxed">
+                    Remaining Le {(cartTotal - depositAmount).toLocaleString()} to
+                    be paid at the salon on your appointment day.
+                  </p>
+                </div>
+              )}
+
               {/* Form */}
-              <div className="space-y-5 px-6 py-6">
+              <div className="space-y-5 px-6 py-5">
                 {/* Name */}
                 <div>
                   <label className="mb-2 flex items-center gap-2 text-[11px] font-medium tracking-[0.15em] text-text-dim uppercase">
@@ -205,12 +251,14 @@ export function BookingModal() {
               </div>
 
               {/* Submit */}
-              <div className="border-t border-border px-6 py-5">
+              <div className="sticky bottom-0 border-t border-border bg-bg-elevated px-6 py-5">
                 <button
                   onClick={handleSubmit}
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-semibold tracking-[0.1em] text-bg uppercase transition-all duration-300 hover:bg-accent-light hover:shadow-[0_0_30px_rgba(200,169,126,0.3)]"
                 >
-                  Continue to Payment
+                  {isFromCart
+                    ? `Pay Le ${depositAmount.toLocaleString()} Deposit`
+                    : "Continue to Payment"}
                   <ArrowRight size={16} />
                 </button>
               </div>
@@ -219,7 +267,7 @@ export function BookingModal() {
         )}
       </AnimatePresence>
 
-      {/* Payment Modal (Flot iframe) */}
+      {/* ─── Payment Modal (Flot iframe) ─── */}
       <AnimatePresence>
         {isPaymentOpen && (
           <motion.div
@@ -238,26 +286,31 @@ export function BookingModal() {
             >
               {/* Booking summary bar */}
               {bookingData && (
-                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between bg-[#0a0a0a] px-4 py-2.5 text-white">
-                  <div className="flex items-center gap-3 text-[11px]">
-                    <span className="font-medium text-accent">
-                      {bookingData.name}
-                    </span>
-                    <span className="text-white/40">|</span>
-                    <span className="text-white/70">
-                      {new Date(bookingData.date + "T00:00:00").toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </span>
-                    <span className="text-white/40">|</span>
-                    <span className="text-white/70">{bookingData.time}</span>
-                  </div>
+                <div className="absolute top-0 left-0 right-14 z-20 flex items-center gap-3 bg-[#0a0a0a] px-4 py-2.5 text-[11px] text-white">
+                  <span className="font-medium text-[#c8a97e]">
+                    {bookingData.name}
+                  </span>
+                  <span className="text-white/30">•</span>
+                  <span className="text-white/70">
+                    {new Date(bookingData.date + "T00:00:00").toLocaleDateString(
+                      "en-GB",
+                      { day: "numeric", month: "short" }
+                    )}
+                  </span>
+                  <span className="text-white/30">•</span>
+                  <span className="text-white/70">{bookingData.time}</span>
+                  {depositAmount > 0 && (
+                    <>
+                      <span className="text-white/30">•</span>
+                      <span className="font-semibold text-green-400">
+                        Le {depositAmount.toLocaleString()} deposit
+                      </span>
+                    </>
+                  )}
                 </div>
               )}
 
-              <div className="absolute top-0 right-0 z-20 flex gap-2 p-2.5">
+              <div className="absolute top-0 right-0 z-20 flex gap-2 p-2">
                 <button
                   onClick={handlePaymentDone}
                   className="rounded-full bg-green-600 px-3 py-1 text-[10px] font-semibold text-white tracking-wider uppercase hover:bg-green-700 transition"
@@ -273,7 +326,7 @@ export function BookingModal() {
               </div>
 
               <iframe
-                src={FLOT_URL}
+                src={flotUrl}
                 className="h-full w-full border-0 pt-10"
                 title="Flot Payment — Deposit"
                 allow="payment"

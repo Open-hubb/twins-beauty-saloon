@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Minus, Trash2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useBooking } from "@/context/BookingContext";
 import { FlotCheckout } from "@/components/FlotCheckout";
 
 export function CartDrawer() {
@@ -17,6 +18,9 @@ export function CartDrawer() {
     isCheckoutOpen,
     setIsCheckoutOpen,
   } = useCart();
+  const { setIsBookingOpen, setCartTotal } = useBooking();
+
+  const depositAmount = Math.ceil(totalPrice * 0.3);
 
   return (
     <>
@@ -131,21 +135,30 @@ export function CartDrawer() {
 
               {items.length > 0 && (
                 <div className="border-t border-border px-6 py-5">
-                  <div className="mb-4 flex items-center justify-between">
+                  <div className="mb-3 flex items-center justify-between">
                     <span className="text-sm text-text-muted">Total</span>
                     <span className="text-lg font-medium text-accent">
                       Le {totalPrice.toLocaleString()}
                     </span>
                   </div>
+                  <div className="mb-4 flex items-center justify-between rounded-lg bg-accent/5 px-3 py-2 border border-accent/10">
+                    <span className="text-xs text-text-dim">
+                      30% deposit to reserve
+                    </span>
+                    <span className="text-sm font-semibold text-accent">
+                      Le {depositAmount.toLocaleString()}
+                    </span>
+                  </div>
                   <button
                     onClick={() => {
+                      setCartTotal(totalPrice);
                       setIsCartOpen(false);
-                      setIsCheckoutOpen(true);
+                      setIsBookingOpen(true);
                     }}
                     className="w-full rounded-full bg-accent py-3.5 text-sm font-semibold tracking-[0.1em] text-bg uppercase transition-all duration-300 hover:bg-accent-light hover:shadow-[0_0_30px_rgba(200,169,126,0.3)]"
                     data-cursor="PAY"
                   >
-                    Checkout
+                    Reserve &amp; Pay Deposit
                   </button>
                 </div>
               )}

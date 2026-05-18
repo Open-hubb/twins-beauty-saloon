@@ -4,10 +4,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
-const FLOT_URL = "https://pay.flotme.ai/twinsbeautysaloon";
+const FLOT_BASE = "https://pay.flotme.ai/twinsbeautysaloon";
 
 export function FlotCheckout() {
-  const { isCheckoutOpen, setIsCheckoutOpen, clearCart } = useCart();
+  const { isCheckoutOpen, setIsCheckoutOpen, clearCart, totalPrice } = useCart();
+
+  const depositAmount = Math.ceil(totalPrice * 0.3);
+  const flotUrl = depositAmount > 0
+    ? `${FLOT_BASE}?amount=${depositAmount}`
+    : FLOT_BASE;
 
   const handleClose = () => {
     setIsCheckoutOpen(false);
@@ -50,7 +55,7 @@ export function FlotCheckout() {
               </button>
             </div>
             <iframe
-              src={FLOT_URL}
+              src={flotUrl}
               className="h-full w-full border-0"
               title="Flot Payment Checkout"
               allow="payment"
