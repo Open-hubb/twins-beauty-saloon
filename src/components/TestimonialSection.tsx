@@ -39,8 +39,8 @@ export function TestimonialSection() {
             </div>
 
             <blockquote className="font-[var(--font-display)] text-[clamp(1.3rem,3vw,2rem)] font-light leading-[1.5] italic">
-              &ldquo;Great job. Super talented nail art staff. No appointments,
-              first come first served.&rdquo;
+              &ldquo;Great job. Super talented nail art staff. Walk-ins welcome,
+              or book ahead to lock in your spot.&rdquo;
             </blockquote>
 
             <div className="mt-8">

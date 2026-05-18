@@ -35,7 +35,7 @@ export default function Home() {
       <MarqueeStrip
         items={[
           "Walk-Ins Welcome",
-          "No Appointment Needed",
+          "Book & Lock In Your Spot",
           "Adelaide Street",
           "Freetown",
         ]}
