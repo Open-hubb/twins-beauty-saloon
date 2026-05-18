@@ -4,12 +4,17 @@ import { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 const galleryItems = [
-  { src: "https://placehold.co/600x750/1a1c1e/c8a97e?text=Braids", label: "Knotless Braids", span: "row-span-2" },
-  { src: "https://placehold.co/600x400/1a1c1e/da70d6?text=Nail+Art", label: "Nail Art", span: "" },
-  { src: "https://placehold.co/600x400/1a1c1e/d4af37?text=Wig+Install", label: "Wig Install", span: "" },
-  { src: "https://placehold.co/600x750/1a1c1e/b76e79?text=Cornrows", label: "Cornrows", span: "row-span-2" },
-  { src: "https://placehold.co/600x400/1a1c1e/c8a97e?text=Manicure", label: "Gel Manicure", span: "" },
-  { src: "https://placehold.co/600x400/1a1c1e/da70d6?text=Weave", label: "Sew-in Weave", span: "" },
+  { src: "/3d-chrome-nails-gold.jpeg", label: "3D Chrome Nails", span: "row-span-2" },
+  { src: "/1.jpeg", label: "French Cat Eye", span: "" },
+  { src: "/2.jpeg", label: "Marble Design", span: "" },
+  { src: "/4.jpeg", label: "3D Embellished Nails", span: "row-span-2" },
+  { src: "/11.jpeg", label: "Pink Barbie Art", span: "" },
+  { src: "/3.jpeg", label: "Cat Eye Nails", span: "" },
+  { src: "/3d-nails-gold-zebra.jpeg", label: "3D Gold Zebra Nails", span: "" },
+  { src: "/acrylic-gel-polish-navy.jpeg", label: "Acrylic & Gel Polish", span: "" },
+  { src: "/22233.jpeg", label: "Acrylic & Gel Toes", span: "" },
+  { src: "/acrylic-french-tip.jpeg", label: "Acrylic French Tip", span: "row-span-2" },
+  { src: "/french-tip-toes.jpeg", label: "French Tip Toes", span: "" },
 ];
 
 export function GallerySection() {
