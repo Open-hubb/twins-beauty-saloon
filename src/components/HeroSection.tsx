@@ -69,17 +69,6 @@ export function HeroSection() {
             <span className="relative z-10">Book Now</span>
             <div className="absolute inset-0 -translate-x-full bg-accent-light transition-transform duration-500 group-hover:translate-x-0" />
           </button>
-          <button
-            onClick={() => {
-              document
-                .querySelector("#shop")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="magnetic-btn flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm tracking-[0.1em] text-text-muted uppercase transition-all duration-300 hover:border-accent/50 hover:text-text"
-            data-cursor="VIEW"
-          >
-            Explore
-          </button>
         </motion.div>
       </div>
 
