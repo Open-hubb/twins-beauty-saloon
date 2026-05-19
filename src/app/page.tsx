@@ -3,7 +3,6 @@
 import { HeroSection } from "@/components/HeroSection";
 import { MarqueeStrip } from "@/components/MarqueeStrip";
 import { AboutSection } from "@/components/AboutSection";
-import { ServicesSection } from "@/components/ServicesSection";
 import { ShopSection } from "@/components/ShopSection";
 import { TestimonialSection } from "@/components/TestimonialSection";
 import { ContactSection } from "@/components/ContactSection";
@@ -39,20 +38,6 @@ export default function Home() {
           "Freetown",
         ]}
         reverse
-      />
-
-      <ServicesSection />
-
-      <MarqueeStrip
-        items={[
-          "Wigs",
-          "Bundles",
-          "Hair Care",
-          "Nail Products",
-          "Cosmetics",
-          "Edge Control",
-          "Extensions",
-        ]}
       />
 
       <ShopSection />

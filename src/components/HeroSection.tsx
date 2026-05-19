@@ -72,7 +72,7 @@ export function HeroSection() {
           <button
             onClick={() => {
               document
-                .querySelector("#services")
+                .querySelector("#shop")
                 ?.scrollIntoView({ behavior: "smooth" });
             }}
             className="magnetic-btn flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm tracking-[0.1em] text-text-muted uppercase transition-all duration-300 hover:border-accent/50 hover:text-text"

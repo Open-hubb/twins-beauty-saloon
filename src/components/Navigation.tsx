@@ -9,7 +9,6 @@ import { CartDrawer } from "@/components/CartDrawer";
 
 const navLinks = [
   { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
   { label: "Shop", href: "#shop" },
   { label: "Contact", href: "#contact" },
 ];
