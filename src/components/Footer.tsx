@@ -78,11 +78,11 @@ export function Footer() {
 
           <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-6">
             <a
-              href="mailto:Ttwinsbeautysaloon@gmail.com"
+              href="mailto:twinsbeautysaloon@gmail.com"
               className="flex items-center gap-2 text-xs text-text-dim transition hover:text-text"
             >
               <Mail size={12} />
-              Ttwinsbeautysaloon@gmail.com
+              twinsbeautysaloon@gmail.com
             </a>
             <a
               href="https://www.facebook.com/twinsbe"
@@ -91,6 +91,14 @@ export function Footer() {
               className="text-xs text-text-dim transition hover:text-accent"
             >
               Facebook
+            </a>
+            <a
+              href="https://www.instagram.com/twinsbeautysaloon?igsh=MWZqYmppb2g0Y2Mwag=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-text-dim transition hover:text-accent"
+            >
+              Instagram
             </a>
           </div>
 
