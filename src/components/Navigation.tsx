@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingBag, X, Menu, Phone } from "lucide-react";
+import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { useBooking } from "@/context/BookingContext";
 import { CartDrawer } from "@/components/CartDrawer";
@@ -53,11 +54,14 @@ export function Navigation() {
             className="group flex items-center gap-3"
             data-cursor="HOME"
           >
-            <div className="relative flex h-10 w-10 items-center justify-center">
-              <div className="absolute inset-0 rounded-full bg-accent/20 transition-transform duration-500 group-hover:scale-110" />
-              <span className="font-[var(--font-display)] text-lg font-bold text-accent">
-                T
-              </span>
+            <div className="relative h-10 w-10 overflow-hidden rounded-full transition-transform duration-500 group-hover:scale-110">
+              <Image
+                src="/twins-logo.jpeg"
+                alt="Twins Beauty Saloon"
+                fill
+                className="object-cover"
+                sizes="40px"
+              />
             </div>
             <div className="hidden sm:block">
               <span className="text-sm font-medium tracking-[0.15em] text-text uppercase">

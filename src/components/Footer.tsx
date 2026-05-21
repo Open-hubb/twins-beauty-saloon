@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
 import { useBooking } from "@/context/BookingContext";
 
 export function Footer() {
@@ -48,6 +49,17 @@ export function Footer() {
           <p className="mt-6 text-sm text-text-muted">
             Walk-ins welcome. Book a date &amp; deposit to reserve your spot.
           </p>
+          <div className="mt-6 flex justify-center">
+            <div className="relative h-16 w-16 overflow-hidden rounded-full">
+              <Image
+                src="/twins-logo.jpeg"
+                alt="Twins Beauty Saloon"
+                fill
+                className="object-cover"
+                sizes="64px"
+              />
+            </div>
+          </div>
           <button
             onClick={() => setIsBookingOpen(true)}
             className="magnetic-btn mt-8 inline-flex rounded-full bg-accent px-8 py-3.5 text-sm font-semibold tracking-[0.1em] text-bg uppercase transition hover:bg-accent-light"

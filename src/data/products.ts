@@ -156,7 +156,7 @@ export const products: Product[] = [
     id: "pedi-001",
     name: "Pedicure (Ladies)",
     price: 100,
-    image: "/pedicure-ladies.jpg",
+    image: "/pedicure-ladies-real.jpeg",
     category: "Mani & Pedi",
     description: "Relaxing pedicure with foot soak, scrub, and polish",
   },
