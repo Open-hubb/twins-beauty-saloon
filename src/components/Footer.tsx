@@ -36,8 +36,19 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="relative border-t border-border bg-bg-elevated">
-      <div className="mx-auto max-w-[1400px] px-6 py-24 lg:px-12 lg:py-32">
+    <footer className="relative border-t border-border bg-bg-elevated overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="relative w-[500px] h-[500px] opacity-[0.08]">
+          <Image
+            src="/twins-logo-bg-removed.png"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="500px"
+          />
+        </div>
+      </div>
+      <div className="relative z-10 mx-auto max-w-[1400px] px-6 py-24 lg:px-12 lg:py-32">
         <div className="text-center">
           <h2
             ref={headingRef}
@@ -49,17 +60,6 @@ export function Footer() {
           <p className="mt-6 text-sm text-text-muted">
             Walk-ins welcome. Book a date &amp; deposit to reserve your spot.
           </p>
-          <div className="mt-6 flex justify-center">
-            <div className="relative h-16 w-16 overflow-hidden rounded-full">
-              <Image
-                src="/twins-logo-bg-removed.png"
-                alt="Twins Beauty Saloon"
-                fill
-                className="object-cover"
-                sizes="64px"
-              />
-            </div>
-          </div>
           <button
             onClick={() => setIsBookingOpen(true)}
             className="magnetic-btn mt-8 inline-flex rounded-full bg-accent px-8 py-3.5 text-sm font-semibold tracking-[0.1em] text-bg uppercase transition hover:bg-accent-light"

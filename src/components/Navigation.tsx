@@ -54,13 +54,13 @@ export function Navigation() {
             className="group flex items-center gap-3"
             data-cursor="HOME"
           >
-            <div className="relative h-10 w-10 overflow-hidden transition-transform duration-500 group-hover:scale-110">
+            <div className="relative h-20 w-20 overflow-hidden transition-transform duration-500 group-hover:scale-110">
               <Image
                 src="/twins-logo-bg-removed.png"
                 alt="Twins Beauty Saloon"
                 fill
-                className="object-cover"
-                sizes="40px"
+                className="object-contain"
+                sizes="80px"
               />
             </div>
             <div className="hidden sm:block">
