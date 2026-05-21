@@ -52,7 +52,7 @@ export function Footer() {
           <div className="mt-6 flex justify-center">
             <div className="relative h-16 w-16 overflow-hidden rounded-full">
               <Image
-                src="/twins-logo.jpeg"
+                src="/twins-logo-bg-removed.png"
                 alt="Twins Beauty Saloon"
                 fill
                 className="object-cover"
