@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { CustomCursor } from "@/components/CustomCursor";
@@ -38,6 +39,10 @@ export default function RootLayout({
               {children}
               <BookingModal />
             </Providers>
+            <Script
+              src="https://dashboard.flotme.ai/api/public/tracker.js?id=5d43fac9-9f53-4892-a7f2-817987d9ea5e"
+              strategy="afterInteractive"
+            />
           </BookingProvider>
         </CartProvider>
       </body>
