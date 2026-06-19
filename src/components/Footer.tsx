@@ -4,10 +4,16 @@ import { useEffect, useRef } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import { useBooking } from "@/context/BookingContext";
+import { useSiteContent } from "@/lib/useSiteContent";
 
 export function Footer() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const { setIsBookingOpen } = useBooking();
+  const { footer } = useSiteContent();
+  const email = footer.email || "Ttwinsbeautysaloon@gmail.com";
+  const instagram =
+    footer.instagram ||
+    "https://www.instagram.com/twinsbeautysaloon?igsh=MWZqYmppb2g0Y2Mwag==";
 
   useEffect(() => {
     const init = async () => {
@@ -78,11 +84,11 @@ export function Footer() {
 
           <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-6">
             <a
-              href="mailto:Ttwinsbeautysaloon@gmail.com"
+              href={`mailto:${email}`}
               className="flex items-center gap-2 text-xs text-text-dim transition hover:text-text"
             >
               <Mail size={12} />
-              Ttwinsbeautysaloon@gmail.com
+              {email}
             </a>
             <a
               href="https://www.facebook.com/twinsbe"
@@ -93,7 +99,7 @@ export function Footer() {
               Facebook
             </a>
             <a
-              href="https://www.instagram.com/twinsbeautysaloon?igsh=MWZqYmppb2g0Y2Mwag=="
+              href={instagram}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-text-dim transition hover:text-accent"
