@@ -3,13 +3,14 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ShoppingBag, Check } from "lucide-react";
-import { products, categories } from "@/data/products";
+import { type Product } from "@/data/products";
+import { useProducts } from "@/lib/useProducts";
 import { useCart } from "@/context/CartContext";
 
 function ProductCard({
   product,
 }: {
-  product: (typeof products)[0];
+  product: Product;
 }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
@@ -97,6 +98,13 @@ export function ShopSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [activeCategory, setActiveCategory] = useState("All");
+
+  // Live catalogue from the Flot dashboard (falls back to bundled products).
+  const products = useProducts();
+  const categories = [
+    "All",
+    ...Array.from(new Set(products.map((p) => p.category).filter(Boolean))),
+  ];
 
   const filtered =
     activeCategory === "All"
