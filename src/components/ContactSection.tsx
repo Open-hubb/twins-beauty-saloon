@@ -3,35 +3,54 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
+import { useSiteContent } from "@/lib/useSiteContent";
 
-const contactInfo = [
-  {
-    icon: MapPin,
-    label: "Visit Us",
-    value: "17 Adelaide Street, Freetown, Sierra Leone",
-    href: "https://maps.google.com/?q=17+Adelaide+Street+Freetown+Sierra+Leone",
-  },
-  {
-    icon: Phone,
-    label: "Call Us",
-    value: "+232 78 046462",
-    href: "tel:+23278046462",
-  },
-  {
-    icon: Mail,
-    label: "Email Us",
-    value: "Ttwinsbeautysaloon@gmail.com",
-    href: "mailto:Ttwinsbeautysaloon@gmail.com",
-  },
-  {
-    icon: Clock,
-    label: "Hours",
-    value: "Mon–Sat: 9AM – 7PM",
-    href: null,
-  },
-];
+const FALLBACK = {
+  address: "17 Adelaide Street, Freetown, Sierra Leone",
+  addressLink:
+    "https://maps.google.com/?q=17+Adelaide+Street+Freetown+Sierra+Leone",
+  phone: "+232 78 046462",
+  email: "Ttwinsbeautysaloon@gmail.com",
+  hours: "Mon–Sat: 9AM – 7PM",
+  whatsapp: "23278046462",
+  mapEmbed:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.5!2d-13.2344!3d8.484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOCswMDAwMCBGcmVldG93bg!5e0!3m2!1sen!2ssl!4v1700000000000",
+};
 
 export function ContactSection() {
+  const { contact } = useSiteContent();
+  const phone = contact.phone || FALLBACK.phone;
+  const email = contact.email || FALLBACK.email;
+  const whatsapp = contact.whatsapp || FALLBACK.whatsapp;
+  const mapEmbed = contact.mapEmbed || FALLBACK.mapEmbed;
+
+  const contactInfo = [
+    {
+      icon: MapPin,
+      label: "Visit Us",
+      value: contact.address || FALLBACK.address,
+      href: contact.addressLink || FALLBACK.addressLink,
+    },
+    {
+      icon: Phone,
+      label: "Call Us",
+      value: phone,
+      href: `tel:${phone.replace(/[^\d+]/g, "")}`,
+    },
+    {
+      icon: Mail,
+      label: "Email Us",
+      value: email,
+      href: `mailto:${email}`,
+    },
+    {
+      icon: Clock,
+      label: "Hours",
+      value: contact.hours || FALLBACK.hours,
+      href: null,
+    },
+  ];
+
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -112,7 +131,7 @@ export function ContactSection() {
               className="mt-10"
             >
               <a
-                href="https://wa.me/23278046462"
+                href={`https://wa.me/${whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="magnetic-btn group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[#25D366] px-8 py-4 text-sm font-semibold tracking-[0.1em] text-white uppercase"
@@ -131,7 +150,7 @@ export function ContactSection() {
             className="overflow-hidden rounded-2xl border border-border"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.5!2d-13.2344!3d8.484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOCswMDAwMCBGcmVldG93bg!5e0!3m2!1sen!2ssl!4v1700000000000"
+              src={mapEmbed}
               width="100%"
               height="100%"
               style={{ border: 0, minHeight: 450 }}

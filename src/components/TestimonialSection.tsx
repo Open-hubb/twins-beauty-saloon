@@ -3,8 +3,18 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Star } from "lucide-react";
+import { useSiteContent } from "@/lib/useSiteContent";
+
+const fallbackTestimonial = {
+  name: "Musu Kawusu-Kebbay",
+  role: "Verified Review — 4.0 / 5",
+  quote:
+    "Great job. Super talented nail art staff. Walk-ins welcome, or book ahead to lock in your spot.",
+};
 
 export function TestimonialSection() {
+  const { testimonials } = useSiteContent();
+  const t = testimonials[0] ?? fallbackTestimonial;
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -39,14 +49,13 @@ export function TestimonialSection() {
             </div>
 
             <blockquote className="font-[var(--font-display)] text-[clamp(1.3rem,3vw,2rem)] font-light leading-[1.5] italic">
-              &ldquo;Great job. Super talented nail art staff. Walk-ins welcome,
-              or book ahead to lock in your spot.&rdquo;
+              &ldquo;{t.quote}&rdquo;
             </blockquote>
 
             <div className="mt-8">
-              <p className="text-sm font-medium">Musu Kawusu-Kebbay</p>
+              <p className="text-sm font-medium">{t.name}</p>
               <p className="mt-1 text-xs tracking-[0.15em] text-text-dim uppercase">
-                Verified Review &mdash; 4.0 / 5
+                {t.role}
               </p>
             </div>
           </motion.div>

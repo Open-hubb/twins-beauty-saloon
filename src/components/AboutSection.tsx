@@ -2,13 +2,22 @@
 
 import { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useSiteContent } from "@/lib/useSiteContent";
 
-const stats = [
+const fallbackStats = [
   { value: "300+", label: "Happy Clients" },
   { value: "15+", label: "Services" },
 ];
 
+const fallbackBody = [
+  "Twin Beauty Saloon is a beauty and personal-care destination on Adelaide Street in central Freetown. We specialise in everything that helps you look and feel your best — from manicures and pedicures to braids, weaves, and protective styles.",
+  "Alongside our salon services, we stock a curated selection of wigs, hair extensions, and beauty products so you can take the salon experience home with you. Walk-ins are welcome, and our friendly team takes pride in delivering quality work for every client who sits in our chair.",
+];
+
 export function AboutSection() {
+  const { about } = useSiteContent();
+  const stats = about.stats.length ? about.stats : fallbackStats;
+  const paragraphs = about.body ? about.body.split(/\n\n+/) : fallbackBody;
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -59,15 +68,21 @@ export function AboutSection() {
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-20 items-start">
           <div className="lg:col-span-5">
             <span className="text-[11px] font-medium tracking-[0.3em] text-accent uppercase">
-              Our Story
+              {about.eyebrow || "Our Story"}
             </span>
             <h2
               ref={headingRef}
               className="mt-4 font-[var(--font-display)] text-[clamp(2rem,5vw,3.5rem)] font-light leading-[1.1] tracking-[-0.02em]"
             >
-              {splitText("Where Beauty")}
-              <br />
-              {splitText("Meets Soul")}
+              {about.title ? (
+                splitText(about.title)
+              ) : (
+                <>
+                  {splitText("Where Beauty")}
+                  <br />
+                  {splitText("Meets Soul")}
+                </>
+              )}
             </h2>
           </div>
 
@@ -77,19 +92,14 @@ export function AboutSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
             >
-              <p className="text-base leading-[1.8] text-text-muted">
-                Twin Beauty Saloon is a beauty and personal-care destination on
-                Adelaide Street in central Freetown. We specialise in everything
-                that helps you look and feel your best — from manicures and
-                pedicures to braids, weaves, and protective styles.
-              </p>
-              <p className="mt-6 text-base leading-[1.8] text-text-muted">
-                Alongside our salon services, we stock a curated selection of
-                wigs, hair extensions, and beauty products so you can take the
-                salon experience home with you. Walk-ins are welcome, and our
-                friendly team takes pride in delivering quality work for every
-                client who sits in our chair.
-              </p>
+              {paragraphs.map((para, i) => (
+                <p
+                  key={i}
+                  className={`text-base leading-[1.8] text-text-muted${i > 0 ? " mt-6" : ""}`}
+                >
+                  {para}
+                </p>
+              ))}
             </motion.div>
 
             <motion.div

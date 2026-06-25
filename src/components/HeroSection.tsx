@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { ArrowDown } from "lucide-react";
 import { useBooking } from "@/context/BookingContext";
+import { useSiteContent } from "@/lib/useSiteContent";
 
 const HeroScene = dynamic(
   () => import("./HeroScene").then((mod) => ({ default: mod.HeroScene })),
@@ -12,6 +13,7 @@ const HeroScene = dynamic(
 
 export function HeroSection() {
   const { setIsBookingOpen } = useBooking();
+  const { hero } = useSiteContent();
 
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
@@ -28,7 +30,7 @@ export function HeroSection() {
           className="mb-6"
         >
           <span className="inline-block rounded-full border border-accent/30 px-5 py-1.5 text-[10px] font-medium tracking-[0.35em] text-accent uppercase">
-            Adelaide Street, Freetown
+            {hero.badge || "Adelaide Street, Freetown"}
           </span>
         </motion.div>
 
@@ -38,11 +40,17 @@ export function HeroSection() {
           transition={{ delay: 0.5, duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
           className="font-[var(--font-display)] text-[clamp(2.5rem,8vw,7rem)] font-light leading-[0.9] tracking-[-0.03em]"
         >
-          <span className="block">Hair, Nails</span>
-          <span className="block mt-2">
-            &amp;{" "}
-            <span className="text-stroke italic">Beauty</span>
-          </span>
+          {hero.title ? (
+            <span className="block">{hero.title}</span>
+          ) : (
+            <>
+              <span className="block">Hair, Nails</span>
+              <span className="block mt-2">
+                &amp;{" "}
+                <span className="text-stroke italic">Beauty</span>
+              </span>
+            </>
+          )}
         </motion.h1>
 
         <motion.p
@@ -51,8 +59,8 @@ export function HeroSection() {
           transition={{ delay: 0.9, duration: 1 }}
           className="mt-8 mx-auto max-w-xl text-sm leading-relaxed text-text-muted tracking-wide"
         >
-          All under one roof in the heart of Freetown. Walk-ins welcome.
-          Book an available date and deposit a percentage to reserve your spot.
+          {hero.subtitle ||
+            "All under one roof in the heart of Freetown. Walk-ins welcome. Book an available date and deposit a percentage to reserve your spot."}
         </motion.p>
 
         <motion.div
@@ -66,7 +74,7 @@ export function HeroSection() {
             className="magnetic-btn group relative overflow-hidden rounded-full bg-accent px-8 py-3.5 text-sm font-semibold tracking-[0.1em] text-bg uppercase"
             data-cursor="BOOK"
           >
-            <span className="relative z-10">Book Now</span>
+            <span className="relative z-10">{hero.ctaText || "Book Now"}</span>
             <div className="absolute inset-0 -translate-x-full bg-accent-light transition-transform duration-500 group-hover:translate-x-0" />
           </button>
         </motion.div>
