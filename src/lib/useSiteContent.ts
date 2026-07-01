@@ -77,20 +77,43 @@ function normalize(d: Record<string, unknown> | null | undefined): SiteContent {
   };
 }
 
+// Live preview: the Flot dashboard CMS editor streams unsaved content via
+// postMessage when the site is embedded in its preview iframe. We prefer that
+// draft over the fetched content.
+let previewData: Record<string, unknown> | null = null;
+const previewSubs = new Set<() => void>();
+function initPreview() {
+  if (typeof window === "undefined" || window.parent === window) return;
+  const w = window as unknown as { __flotSCPreviewInit?: boolean };
+  if (w.__flotSCPreviewInit) return;
+  w.__flotSCPreviewInit = true;
+  window.addEventListener("message", (e: MessageEvent) => {
+    if (e.origin !== "https://dashboard.flotme.ai") return;
+    const d = e.data;
+    if (!d || d.source !== "flot-dashboard" || d.type !== "site-content-preview" || !d.content) return;
+    previewData = d.content as Record<string, unknown>;
+    previewSubs.forEach((fn) => fn());
+  });
+  window.parent.postMessage({ source: "flot-site", type: "preview-ready" }, "*");
+}
+
 export function useSiteContent(): SiteContent {
   const [content, setContent] = useState<SiteContent>(EMPTY);
 
   useEffect(() => {
     let cancelled = false;
-    fetch(SITE_CONTENT_API)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (!cancelled && data) setContent(normalize(data));
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
+    initPreview();
+    const apply = () => { if (!cancelled && previewData) setContent(normalize(previewData)); };
+    const sub = () => apply();
+    previewSubs.add(sub);
+    if (previewData) apply();
+    else {
+      fetch(SITE_CONTENT_API)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => { if (!cancelled && !previewData && data) setContent(normalize(data)); })
+        .catch(() => {});
+    }
+    return () => { cancelled = true; previewSubs.delete(sub); };
   }, []);
 
   return content;
