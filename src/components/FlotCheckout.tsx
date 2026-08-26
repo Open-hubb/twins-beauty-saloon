@@ -42,10 +42,13 @@ export function FlotCheckout() {
     setSubmitting(true);
     setError("");
     // Capture the order in the Flot dashboard (best-effort — never blocks the sale).
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 10_000);
     try {
       const response = await fetch(ORDER_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           merchantId: MERCHANT_ID,
           name: name.trim(),
@@ -71,6 +74,8 @@ export function FlotCheckout() {
       setPaymentOrderId(capturedOrder.orderId);
     } catch (captureError) {
       console.warn("Order capture failed; continuing to payment.", captureError);
+    } finally {
+      window.clearTimeout(timeoutId);
     }
     setSubmitting(false);
     setStep("pay");

@@ -19,3 +19,8 @@ test("checkout carries the dashboard order ID into the hosted Flot URL", () => {
     "the hosted Flot URL must receive that exact order ID"
   )
 })
+
+test("checkout times out order capture so payment cannot be stuck by a slow dashboard", () => {
+  assert.match(checkout, /new AbortController\(\)/)
+  assert.match(checkout, /signal:\s*controller\.signal/)
+})
