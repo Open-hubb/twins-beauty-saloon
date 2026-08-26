@@ -16,14 +16,18 @@ export function FlotCheckout() {
   const [form, setForm] = useState({ name: "", phone: "", address: "", city: "" });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [paymentOrderId, setPaymentOrderId] = useState<string | null>(null);
 
   // Always start at the details step whenever the checkout opens.
   useEffect(() => {
-    if (isCheckoutOpen) { setStep("details"); setError(""); }
+    if (isCheckoutOpen) { setStep("details"); setError(""); setPaymentOrderId(null); }
   }, [isCheckoutOpen]);
 
   const depositAmount = Math.ceil(totalPrice * 0.3);
-  const flotUrl = depositAmount > 0 ? `${FLOT_BASE}?amount=${depositAmount}` : FLOT_BASE;
+  const flotCheckoutUrl = new URL(FLOT_BASE);
+  if (depositAmount > 0) flotCheckoutUrl.searchParams.set("amount", String(depositAmount));
+  if (paymentOrderId) flotCheckoutUrl.searchParams.set("orderId", paymentOrderId);
+  const flotUrl = flotCheckoutUrl.toString();
 
   const handleClose = () => setIsCheckoutOpen(false);
   const handleComplete = () => { clearCart(); setIsCheckoutOpen(false); };
@@ -54,6 +58,17 @@ export function FlotCheckout() {
         }),
       });
       if (!response.ok) throw new Error(`Order capture returned ${response.status}`);
+      const capturedOrder: unknown = await response.json();
+      if (
+        !capturedOrder ||
+        typeof capturedOrder !== "object" ||
+        !("orderId" in capturedOrder) ||
+        typeof capturedOrder.orderId !== "string" ||
+        !capturedOrder.orderId
+      ) {
+        throw new Error("Order capture did not return an order ID");
+      }
+      setPaymentOrderId(capturedOrder.orderId);
     } catch (captureError) {
       console.warn("Order capture failed; continuing to payment.", captureError);
     }
