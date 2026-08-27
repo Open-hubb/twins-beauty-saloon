@@ -39,7 +39,7 @@ export function FlotCheckout() {
     setError("");
     // Capture the order in the Flot dashboard (best-effort — never blocks the sale).
     try {
-      await fetch(ORDER_API, {
+      const response = await fetch(ORDER_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -53,8 +53,9 @@ export function FlotCheckout() {
           currency: "SLE",
         }),
       });
-    } catch {
-      /* ignore — proceed to payment */
+      if (!response.ok) throw new Error(`Order capture returned ${response.status}`);
+    } catch (captureError) {
+      console.warn("Order capture failed; continuing to payment.", captureError);
     }
     setSubmitting(false);
     setStep("pay");
