@@ -94,7 +94,7 @@ function initPreview() {
     previewData = d.content as Record<string, unknown>;
     previewSubs.forEach((fn) => fn());
   });
-  window.parent.postMessage({ source: "flot-site", type: "preview-ready" }, "*");
+  window.parent.postMessage({ source: "flot-site", type: "preview-ready" }, "https://dashboard.flotme.ai");
 }
 
 export function useSiteContent(): SiteContent {
