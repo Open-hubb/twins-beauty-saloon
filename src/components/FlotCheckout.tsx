@@ -16,14 +16,18 @@ export function FlotCheckout() {
   const [form, setForm] = useState({ name: "", phone: "", address: "", city: "" });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [paymentOrderId, setPaymentOrderId] = useState<string | null>(null);
 
   // Always start at the details step whenever the checkout opens.
   useEffect(() => {
-    if (isCheckoutOpen) { setStep("details"); setError(""); }
+    if (isCheckoutOpen) { setStep("details"); setError(""); setPaymentOrderId(null); }
   }, [isCheckoutOpen]);
 
   const depositAmount = Math.ceil(totalPrice * 0.3);
-  const flotUrl = depositAmount > 0 ? `${FLOT_BASE}?amount=${depositAmount}` : FLOT_BASE;
+  const flotCheckoutUrl = new URL(FLOT_BASE);
+  if (depositAmount > 0) flotCheckoutUrl.searchParams.set("amount", String(depositAmount));
+  if (paymentOrderId) flotCheckoutUrl.searchParams.set("orderId", paymentOrderId);
+  const flotUrl = flotCheckoutUrl.toString();
 
   const handleClose = () => setIsCheckoutOpen(false);
   const handleComplete = () => { clearCart(); setIsCheckoutOpen(false); };
@@ -38,10 +42,13 @@ export function FlotCheckout() {
     setSubmitting(true);
     setError("");
     // Capture the order in the Flot dashboard (best-effort — never blocks the sale).
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 10_000);
     try {
       const response = await fetch(ORDER_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           merchantId: MERCHANT_ID,
           name: name.trim(),
@@ -54,8 +61,21 @@ export function FlotCheckout() {
         }),
       });
       if (!response.ok) throw new Error(`Order capture returned ${response.status}`);
+      const capturedOrder: unknown = await response.json();
+      if (
+        !capturedOrder ||
+        typeof capturedOrder !== "object" ||
+        !("orderId" in capturedOrder) ||
+        typeof capturedOrder.orderId !== "string" ||
+        !capturedOrder.orderId
+      ) {
+        throw new Error("Order capture did not return an order ID");
+      }
+      setPaymentOrderId(capturedOrder.orderId);
     } catch (captureError) {
       console.warn("Order capture failed; continuing to payment.", captureError);
+    } finally {
+      window.clearTimeout(timeoutId);
     }
     setSubmitting(false);
     setStep("pay");
