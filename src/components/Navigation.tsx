@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { useBooking } from "@/context/BookingContext";
 import { CartDrawer } from "@/components/CartDrawer";
+import { WHATSAPP_URL } from "@/data/constants";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -91,7 +92,7 @@ export function Navigation() {
 
           <div className="flex items-center gap-4">
             <a
-              href="https://wa.me/23278046462"
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden items-center gap-2 rounded-full border border-accent/30 px-4 py-2 transition-all duration-300 hover:border-accent hover:bg-accent/10 sm:flex"
@@ -106,6 +107,7 @@ export function Navigation() {
             <button
               onClick={() => setIsCartOpen(!isCartOpen)}
               className="relative flex h-10 w-10 items-center justify-center rounded-full border border-border transition-all duration-300 hover:border-accent/50 hover:bg-accent/5"
+              aria-label={`Shopping bag${totalItems > 0 ? `, ${totalItems} items` : ""}`}
               data-cursor="CART"
             >
               <ShoppingBag size={18} className="text-text-muted" />
@@ -123,6 +125,7 @@ export function Navigation() {
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-border transition-all duration-300 hover:border-accent/50 lg:hidden"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
               data-cursor="MENU"
             >
               {menuOpen ? (

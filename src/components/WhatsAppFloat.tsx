@@ -2,11 +2,13 @@
 
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
+import { WHATSAPP_URL } from "@/data/constants";
 
 export function WhatsAppFloat() {
   return (
     <motion.a
-      href="https://wa.me/23278046462"
+      href={WHATSAPP_URL}
+      aria-label="Chat with us on WhatsApp"
       target="_blank"
       rel="noopener noreferrer"
       initial={{ scale: 0, opacity: 0 }}

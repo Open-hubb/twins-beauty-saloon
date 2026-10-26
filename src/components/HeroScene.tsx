@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import * as THREE from "three";
@@ -10,16 +10,15 @@ function FlowingRibbon() {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const mousePos = useRef({ x: 0, y: 0 });
 
-  useMemo(() => {
-    if (typeof window !== "undefined") {
-      const handleMouse = (e: MouseEvent) => {
-        mousePos.current = {
-          x: (e.clientX / window.innerWidth) * 2 - 1,
-          y: -(e.clientY / window.innerHeight) * 2 + 1,
-        };
+  useEffect(() => {
+    const handleMouse = (e: MouseEvent) => {
+      mousePos.current = {
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: -(e.clientY / window.innerHeight) * 2 + 1,
       };
-      window.addEventListener("mousemove", handleMouse);
-    }
+    };
+    window.addEventListener("mousemove", handleMouse);
+    return () => window.removeEventListener("mousemove", handleMouse);
   }, []);
 
   const shaderArgs = useMemo(

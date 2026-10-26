@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Calendar, Clock, User, ArrowRight, ShoppingBag } from "lucide-react";
 import { useBooking } from "@/context/BookingContext";
 import { useCart } from "@/context/CartContext";
-
-const FLOT_BASE = "https://pay.flotme.ai/twinsbeautysaloon";
+import { FLOT_BASE } from "@/data/constants";
 
 const timeSlots = [
   "09:00 AM",
@@ -141,6 +140,7 @@ export function BookingModal() {
                 <button
                   onClick={handleClose}
                   className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-border transition hover:border-accent/50"
+                  aria-label="Close booking form"
                 >
                   <X size={16} />
                 </button>
@@ -330,7 +330,7 @@ export function BookingModal() {
                 className="h-full w-full border-0 pt-10"
                 title="Flot Payment — Deposit"
                 allow="payment"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation-by-user-activation"
               />
             </motion.div>
           </motion.div>

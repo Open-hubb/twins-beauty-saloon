@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Mail } from "lucide-react";
 import Image from "next/image";
 import { useBooking } from "@/context/BookingContext";
 import { useSiteContent } from "@/lib/useSiteContent";
+import { EMAIL, FACEBOOK_URL, INSTAGRAM_URL } from "@/data/constants";
 
 export function Footer() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const { setIsBookingOpen } = useBooking();
   const { footer } = useSiteContent();
-  const email = footer.email || "Ttwinsbeautysaloon@gmail.com";
-  const instagram =
-    footer.instagram ||
-    "https://www.instagram.com/twinsbeautysaloon?igsh=MWZqYmppb2g0Y2Mwag==";
+  const email = footer.email || EMAIL;
+  const instagram = footer.instagram || INSTAGRAM_URL;
 
   useEffect(() => {
     const init = async () => {
@@ -91,7 +90,7 @@ export function Footer() {
               {email}
             </a>
             <a
-              href="https://www.facebook.com/twinsbe"
+              href={FACEBOOK_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs text-text-dim transition hover:text-accent"

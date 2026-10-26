@@ -4,15 +4,16 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import { useSiteContent } from "@/lib/useSiteContent";
+import { WHATSAPP_NUMBER, EMAIL } from "@/data/constants";
 
 const FALLBACK = {
   address: "17 Adelaide Street, Freetown, Sierra Leone",
   addressLink:
     "https://maps.google.com/?q=17+Adelaide+Street+Freetown+Sierra+Leone",
   phone: "+232 78 046462",
-  email: "Ttwinsbeautysaloon@gmail.com",
+  email: EMAIL,
   hours: "Mon–Sat: 9AM – 7PM",
-  whatsapp: "23278046462",
+  whatsapp: WHATSAPP_NUMBER,
   mapEmbed:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.5!2d-13.2344!3d8.484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOCswMDAwMCBGcmVldG93bg!5e0!3m2!1sen!2ssl!4v1700000000000",
 };

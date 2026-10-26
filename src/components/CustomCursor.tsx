@@ -9,6 +9,7 @@ export function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const pos = useRef({ x: 0, y: 0 });
   const followerPos = useRef({ x: 0, y: 0 });
+  const isHoveringRef = useRef(false);
 
   useEffect(() => {
     const isTouchDevice = "ontouchstart" in window;
@@ -24,6 +25,7 @@ export function CustomCursor() {
         "a, button, [data-cursor], input, textarea, select"
       );
       if (interactive) {
+        isHoveringRef.current = true;
         setIsHovering(true);
         const cursorLabel =
           interactive.getAttribute("data-cursor") || "";
@@ -37,6 +39,7 @@ export function CustomCursor() {
         "a, button, [data-cursor], input, textarea, select"
       );
       if (interactive) {
+        isHoveringRef.current = false;
         setIsHovering(false);
         setLabel("");
       }
@@ -56,7 +59,7 @@ export function CustomCursor() {
       followerPos.current.y +=
         (pos.current.y - followerPos.current.y) * 0.12;
       if (followerRef.current) {
-        followerRef.current.style.transform = `translate(${followerPos.current.x}px, ${followerPos.current.y}px) scale(${isHovering ? 2.5 : 1})`;
+        followerRef.current.style.transform = `translate(${followerPos.current.x}px, ${followerPos.current.y}px) scale(${isHoveringRef.current ? 2.5 : 1})`;
       }
       rafId = requestAnimationFrame(animate);
     };
@@ -68,7 +71,7 @@ export function CustomCursor() {
       document.removeEventListener("mouseout", handleOut);
       cancelAnimationFrame(rafId);
     };
-  }, [isHovering]);
+  }, []);
 
   return (
     <>

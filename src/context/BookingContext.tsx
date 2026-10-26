@@ -6,6 +6,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { DEPOSIT_PERCENT } from "@/data/constants";
 
 export interface BookingData {
   name: string;
@@ -20,14 +21,10 @@ interface BookingContextType {
   setIsPaymentOpen: (open: boolean) => void;
   bookingData: BookingData | null;
   setBookingData: (data: BookingData | null) => void;
-  /** Total service amount (before deposit calculation) */
   cartTotal: number;
   setCartTotal: (total: number) => void;
-  /** Deposit amount to pay (30% of cartTotal, or 0 for standalone bookings) */
   depositAmount: number;
 }
-
-const DEPOSIT_PERCENT = 0.3;
 
 const BookingContext = createContext<BookingContextType | null>(null);
 

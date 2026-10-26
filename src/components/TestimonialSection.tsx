@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Star } from "lucide-react";
 import { useSiteContent } from "@/lib/useSiteContent";
+import { FACEBOOK_URL } from "@/data/constants";
 
 const fallbackTestimonial = {
   name: "Musu Kawusu-Kebbay",
@@ -36,16 +37,17 @@ export function TestimonialSection() {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="mt-10"
           >
-            <div className="mb-6 flex items-center justify-center gap-1">
+            <div className="mb-6 flex items-center justify-center gap-1" role="img" aria-label="4 out of 5 stars">
               {[...Array(4)].map((_, i) => (
                 <Star
                   key={i}
                   size={18}
                   fill="#c8a97e"
                   className="text-accent"
+                  aria-hidden="true"
                 />
               ))}
-              <Star size={18} className="text-border" />
+              <Star size={18} className="text-border" aria-hidden="true" />
             </div>
 
             <blockquote className="font-[var(--font-display)] text-[clamp(1.3rem,3vw,2rem)] font-light leading-[1.5] italic">
@@ -67,7 +69,7 @@ export function TestimonialSection() {
             className="mt-12"
           >
             <a
-              href="https://www.facebook.com/twinsbe"
+              href={FACEBOOK_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-text-muted uppercase transition-all duration-300 hover:border-accent/50 hover:text-text"

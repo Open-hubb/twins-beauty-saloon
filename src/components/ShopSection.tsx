@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ShoppingBag, Check } from "lucide-react";
 import { type Product } from "@/data/products";
@@ -37,9 +37,11 @@ function ProductCard({
       className="group relative overflow-hidden rounded-2xl border border-border bg-bg-elevated transition-all duration-500 hover:border-accent/20"
     >
       <div className="relative aspect-[4/5] overflow-hidden" data-cursor="VIEW">
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-          style={{ backgroundImage: `url(${product.image})` }}
+        <img
+          src={product.image}
+          alt={product.name}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-bg-elevated via-transparent to-transparent" />
 
@@ -110,15 +112,6 @@ export function ShopSection() {
     activeCategory === "All"
       ? products
       : products.filter((p) => p.category === activeCategory);
-
-  useEffect(() => {
-    const init = async () => {
-      const { gsap } = await import("gsap");
-      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-      gsap.registerPlugin(ScrollTrigger);
-    };
-    init();
-  }, []);
 
   return (
     <section id="shop" className="relative py-32 lg:py-44">
